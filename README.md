@@ -1,6 +1,10 @@
-# Java basic image
+# Base image for java application
 
-From Alpine
+## Oracle Java 8u102b14
 
-- Open SSH 1.02.h
-- Oracle JDK 8u102b14
+## Tags
+
+- alpine-jdk
+- alpine-jre(latest)
+- ubuntu-jdk
+- ubuntu-jre
