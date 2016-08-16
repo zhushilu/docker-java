@@ -1,4 +1,8 @@
 #!/bin/sh
+VERSION="8"
+UPDATE="102"
+BUILD="14"
+
 JAVA_TMP_DIR="/tmp/${PRODUCT}1.${VERSION}.0_${UPDATE}"
 JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/${PRODUCT}-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz"
 JAVA_PATH="/usr/lib/java-${VERSION}-oracle"
