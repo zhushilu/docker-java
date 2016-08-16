@@ -1,59 +1,53 @@
 #!/bin/sh
-VERSION=8
-UPDATE=92
-BUILD=14
-JAVA_HOME="/usr/lib/jvm/java-${VERSION}-oracle"
-JDK_DIR="/tmp/jdk1.${VERSION}.0_${UPDATE}"
-OPENSSL_DIR="/tmp/openssl-${OPENSSL_VERSION}"
-OPENSSL_VERSION=1.0.2h
+JAVA_TMP_DIR="/tmp/jdk1.${VERSION}.0_${UPDATE}"
+JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/${PRODUCT}-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz"
+JAVA_PATH="/usr/lib/java-${VERSION}-oracle"
 
-if [ -n ${http_proxy} ]; then
-  APT_PROXY="Acquire::http::Proxy \"$http_proxy\";"
-  echo "$APT_PROXY" > /etc/apt/apt.conf.d/99proxy.conf
-fi
+apk update
+apk upgrade
+apk add openssl curl tzdata
 
-
-apt-get update && apt-get install ca-certificates curl \
-  gcc libc6-dev libssl-dev make \
-  -y --no-install-recommends
+#for pkg in glibc-${GLIBC_VERSION} glibc-bin-${GLIBC_VERSION} glibc-i18n-${GLIBC_VERSION}; do
+for pkg in glibc-${GLIBC_VERSION}; do
+curl -sSL https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/${pkg}.apk -o /tmp/${pkg}.apk;
+apk add --allow-untrusted /tmp/glibc-${GLIBC_VERSION}.apk
+done
 
 cd /tmp
 # Download JDK
-curl -s -L --retry 3 \
+curl -sSL --retry 3 -o jdk.tar.gz \
   --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-  -o jdk.tar.gz \
-  http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/jdk-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz
+  "$JAVA_URL"
 
 tar xf jdk.tar.gz
 
-mkdir -p /usr/lib/jvm
-mv "${JDK_DIR}" "${JAVA_HOME}"
-
-# Download Openssl
-curl -s -L --retry 3 -k \
-  -o openssl.tar.gz \
-  https://www.openssl.org/source/openssl-"${OPENSSL_VERSION}".tar.gz
-tar xf openssl.tar.gz
-cd "${OPENSSL_DIR}"
-./config --prefix=/usr
-make clean
-make
-make install
-
-# Clean up
-apt-get remove --purge --auto-remove -y \
-    gcc libc6-dev libssl-dev make
-apt-get autoclean && apt-get --purge -y autoremove
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+mv "${JAVA_TMP_DIR}" "${JAVA_PATH}"
+ln -s "${JAVA_PATH}" "${JAVA_HOME}"
 
 rm -f /etc/localtime
 ln -s "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
 
-update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1
-update-alternatives --install "/usr/bin/javaws" "javaws" "${JAVA_HOME}/bin/javaws" 1
-update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
-update-alternatives --set java "${JAVA_HOME}/bin/java"
-update-alternatives --set javaws "${JAVA_HOME}/bin/javaws"
-update-alternatives --set javac "${JAVA_HOME}/bin/javac"
 
-rm -f /etc/apt/apt.conf.d/99proxy.conf
+rm -rf ${JAVA_PATH}/*src.zip \
+       ${JAVA_PATH}/lib/missioncontrol \
+       ${JAVA_PATH}/lib/visualvm \
+       ${JAVA_PATH}/lib/*javafx* \
+       ${JAVA_PATH}/jre/lib/plugin.jar \
+       ${JAVA_PATH}/jre/lib/ext/jfxrt.jar \
+       ${JAVA_PATH}/jre/bin/javaws \
+       ${JAVA_PATH}/jre/lib/javaws.jar \
+       ${JAVA_PATH}/jre/lib/desktop \
+       ${JAVA_PATH}/jre/plugin \
+       ${JAVA_PATH}/jre/lib/deploy* \
+       ${JAVA_PATH}/jre/lib/*javafx* \
+       ${JAVA_PATH}/jre/lib/*jfx* \
+       ${JAVA_PATH}/jre/lib/amd64/libdecora_sse.so \
+       ${JAVA_PATH}/jre/lib/amd64/libprism_*.so \
+       ${JAVA_PATH}/jre/lib/amd64/libfxplugins.so \
+       ${JAVA_PATH}/jre/lib/amd64/libglass.so \
+       ${JAVA_PATH}/jre/lib/amd64/libgstreamer-lite.so \
+       ${JAVA_PATH}/jre/lib/amd64/libjavafx*.so \
+       ${JAVA_PATH}/jre/lib/amd64/libjfx*.so
+rm -f /tmp/${pkg}.apk
+rm -f /tmp/jdk.tar.gz
+ln -s ${JAVA_PATH}/bin/* /usr/local/bin

@@ -1,6 +1,6 @@
 # Java basic image
 
-From Ubuntu.
+From Alpine
 
-- Open SSH
-- Oracle JDK
+- Open SSH 1.02.h
+- Oracle JDK 8u102b14
