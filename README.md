@@ -1,10 +1,11 @@
-# Base image for java application
+## Base image for java application
 
-## Oracle Java 8u102b14
+`docker pull dustise/oracle-jdk`
 
-## Tags
+> **Oracle Java 8u102b14**
 
-- alpine-jdk
-- alpine-jre(latest)
-- ubuntu-jdk
-- ubuntu-jre
+### Tags
+- `alpine-jdk-[label]`
+- `alpine-jre-[label](latest)`
+- `ubuntu-jdk-[label]`
+- `ubuntu-jre-[label]`
