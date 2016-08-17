@@ -89,4 +89,5 @@ if [ "$SIG" = "A" ]; then
   rm -f /tmp/${pkg}.apk
   rm -f /tmp/jdk.tar.gz
   ln -s ${JAVA_PATH}/bin/* /usr/local/bin
+  rm -rf /var/cache/apk/*
 fi
