@@ -16,10 +16,10 @@ if [ $SIG = "A" ]; then
   GLIBC_VERSION="2.23-r3"
   apk update
   apk upgrade
-  apk add openssl curl tzdata
-  for pkg in glibc-${GLIBC_VERSION}; do
+  apk add --update --progress openssl curl tzdata
+  for pkg in glibc-${GLIBC_VERSION} glibc-bin-${GLIBC_VERSION} glibc-i18n-${GLIBC_VERSION}; do
     curl -sSL https://github.com/andyshinn/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/${pkg}.apk -o /tmp/${pkg}.apk;
-    apk add --allow-untrusted /tmp/glibc-${GLIBC_VERSION}.apk
+    apk add --allow-untrusted --update /tmp/${pkg}.apk
   done
 fi
 
