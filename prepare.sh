@@ -45,6 +45,7 @@ curl -sSL --retry 3 -o jdk.tar.gz \
 tar xf jdk.tar.gz
 mv "${JAVA_TMP_DIR}" "${JAVA_PATH}"
 ln -s "${JAVA_PATH}" "${JAVA_HOME}"
+rm -f /tmp/jdk.tar.gz
 
 rm -f /etc/localtime
 ln -s "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
@@ -87,7 +88,6 @@ if [ "$SIG" = "A" ]; then
          ${JAVA_PATH}/${TODEL}lib/amd64/libjavafx*.so \
          ${JAVA_PATH}/${TODEL}lib/amd64/libjfx*.so
   rm -f /tmp/${pkg}.apk
-  rm -f /tmp/jdk.tar.gz
   ln -s ${JAVA_PATH}/bin/* /usr/local/bin
   rm -rf /var/cache/apk/*
 fi
