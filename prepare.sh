@@ -54,7 +54,9 @@ if [ "$SIG" = "U" ]; then
   update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
   update-alternatives --set java "${JAVA_HOME}/bin/java"
   update-alternatives --set javaws "${JAVA_HOME}/bin/javaws"
-  update-alternatives --set javac "${JAVA_HOME}/bin/javac"
+  if [ "$PRODUCT" = "jdk" ]; then
+    update-alternatives --set javac "${JAVA_HOME}/bin/javac"
+  fi
   rm -Rf /var/lib/apt/lists/*
 fi
 

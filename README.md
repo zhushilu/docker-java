@@ -12,9 +12,5 @@
 
 ---
 
-### v0.7.1
-- NO OPENSSL HERE
-
 ### v0.7
-- upgrade openssl to 1.0.2i-r0 in alpine.
 - file size optimization for ubuntu.
