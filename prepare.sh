@@ -51,7 +51,9 @@ ln -s "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
 if [ "$SIG" = "U" ]; then
   update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java" 1
   update-alternatives --install "/usr/bin/javaws" "javaws" "${JAVA_HOME}/bin/javaws" 1
-  update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
+  if [ "$PRODUCT" = "jdk" ]; then
+    update-alternatives --install "/usr/bin/javac" "javac" "${JAVA_HOME}/bin/javac" 1
+  fi
   update-alternatives --set java "${JAVA_HOME}/bin/java"
   update-alternatives --set javaws "${JAVA_HOME}/bin/javaws"
   if [ "$PRODUCT" = "jdk" ]; then
