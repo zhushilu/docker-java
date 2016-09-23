@@ -1,4 +1,5 @@
 #!/bin/sh
+set -xe
 VERSION="8"
 UPDATE="102"
 BUILD="14"
@@ -26,12 +27,8 @@ fi
 # Ubuntu
 if [ "$SIG" = "U" ]; then
   export DEBIAN_FRONTEND="noninteractive"
-  if [ -n ${http_proxy} ]; then
-    APT_PROXY="Acquire::http::Proxy \"$http_proxy\";"
-    echo "$APT_PROXY" > /etc/apt/apt.conf.d/99proxy.conf
-  fi
   apt-get update
-  apt-get install ca-certificates curl \
+  apt-get install -y ca-certificates curl \
   -y --no-install-recommends
 fi
 
@@ -58,7 +55,7 @@ if [ "$SIG" = "U" ]; then
   update-alternatives --set java "${JAVA_HOME}/bin/java"
   update-alternatives --set javaws "${JAVA_HOME}/bin/javaws"
   update-alternatives --set javac "${JAVA_HOME}/bin/javac"
-  rm -f /etc/apt/apt.conf.d/99proxy.conf
+  rm -Rf /var/lib/apt/lists/*
 fi
 
 if [ "$SIG" = "A" ]; then
