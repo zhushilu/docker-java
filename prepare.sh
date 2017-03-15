@@ -1,8 +1,8 @@
 #!/bin/sh
 set -xe
 VERSION="8"
-UPDATE="112"
-BUILD="15"
+UPDATE="121"
+BUILD="13"
 
 JAVA_TMP_DIR="/tmp/${PRODUCT}1.${VERSION}.0_${UPDATE}"
 JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/"${VERSION}"u"${UPDATE}"-b"${BUILD}"/${PRODUCT}-"${VERSION}"u"${UPDATE}"-linux-x64.tar.gz"
