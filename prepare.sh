@@ -16,7 +16,7 @@ SIG=`cat /etc/*release | grep  ^NAME | cut -c7`
 
 # Alpine
 if [ $SIG = "A" ]; then
-  GLIBC_VERSION="2.23-r3"
+  GLIBC_VERSION="2.25-r0"
   apk update
   apk upgrade
   apk add --update --progress openssl curl tzdata
