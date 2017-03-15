@@ -38,7 +38,7 @@ fi
 cd /tmp
 # Download JDK
 curl -sSL --retry 3 -o jdk.tar.gz \
-  -b "Cookie: oraclelicense=accept-securebackup-cookie;" \
+  -b "oraclelicense=accept-securebackup-cookie;" \
   "$JAVA_URL"
 
 tar xf jdk.tar.gz
